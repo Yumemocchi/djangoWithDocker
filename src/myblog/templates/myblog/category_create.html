@@ -1,0 +1,32 @@
+{% extends "myblog/base.html" %}
+
+{% load static %}
+
+{% block title %}
+    <title>Create Category</title>
+{% endblock title %}
+
+{% block content %}
+{% if user.is_authenticated and user.is_superuser %}
+    <div>
+        <div id="forms">
+            <div>Add Category ...</div>
+            <div>
+                <div >
+                    <div>
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button class="btn btn-secondary">Create Category</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% else %}
+    <div>You are not allowed here</div>
+{% endif %}
+
+{% endblock content %}

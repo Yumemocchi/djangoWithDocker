@@ -1,0 +1,40 @@
+<nav>
+    <div>
+            <ul>
+            <li><a href="{% url 'blog_home' %}">Home</a></li>
+
+            {% if cat_list %}
+                <li>
+                    <a href="#pageSubmenu">Categories</a>
+                    <ul id="pageSubmenu">
+
+                        {% for cat in cat_list %}
+
+                            <li>
+                                <a href="{% url 'category' cat|slugify %}">{{ cat }}</a>
+                            </li>
+
+                        {% endfor %}
+
+                    </ul>
+                </li>
+            {% endif %}
+
+            {% if user.is_authenticated %}
+                {%  if user.is_superuser or user.is_staff %}
+                    <li><a href="{% url 'add_post' %}" class="navbar-link">Add a post</a></li>
+                {% endif %}
+                {%  if user.is_superuser%}
+                    <li><a href="{% url 'add_category' %}" class="navbar-link">Add a category</a></li>
+                {% endif %}
+                <li><a href="{% url 'logout' %}" class="navbar-link">Logout</a></li>
+            {% else %}
+               <li><a href="{% url 'register' %}" class="navbar-link">Register</a></li>
+               <li><a href="{% url 'login' %}" class="navbar-link">Login</a></li>
+            {% endif %}
+
+            <li><a href="{% url 'about' %}" class="navbar-link">About</a></li>
+
+        </ul>
+    </div>
+</nav>

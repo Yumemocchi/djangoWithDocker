@@ -1,0 +1,28 @@
+{% extends "myblog/base.html" %}
+
+{% load static %}
+
+{% block title %}
+    <title>Création d'un post</title>
+{% endblock title %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <div class="post_form">
+    {%  if user.is_superuser or user.is_staff %}
+
+    <div><p>Add post</p></div>
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button>Post</button>
+                        </form>
+    {% endif %}
+{% else %}
+    <div>You are not allowed here</div>
+{% endif %}
+    </div>
+
+
+
+{% endblock content %}

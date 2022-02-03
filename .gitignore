@@ -1,0 +1,25 @@
+*.pyc
+__pycache__
+myvenv
+db.sqlite3
+/static
+.DS_Store
+/venv/
+/.idea/
+*.py[cod]
+*$py.class
+
+### Django ###
+*.log
+*.pot
+__pycache__/
+local_settings.py
+.env
+/myblog/migrations/*
+blog/settings.py
+settings/production.py
+/data
+/static_root
+/src/.env_old
+media_root
+.env.prod

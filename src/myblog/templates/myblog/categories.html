@@ -1,0 +1,32 @@
+{% extends "myblog/base.html" %}
+{% load static %}
+
+{% block title %}
+    <title>{{ cats }} category</title>
+{% endblock title %}
+
+{% block content %}
+    {% if category_posts %}
+
+        {% for post in category_posts %}
+
+            <div>
+                <div>
+                    <a href="{% url 'post_detail' post.slug %}">
+                        <h4>title : {{ post.title }}</h4>
+                    </a>
+                    <p>By : {{ post.author }} - {{ post.created_date_post }} - {{ post.total_likes }} <i
+                            class="fas fa-heart"></i></p>
+                    <p># {{ post.category }}</p>
+                    <div>
+                        <p>{{ post.text_post|slice:':200'|safe }}</p>
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+    {% else %}
+
+        <h2>Sorry this page does not exist ... </h2>
+    {% endif %}
+{% endblock content %}

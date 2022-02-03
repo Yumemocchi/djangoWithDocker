@@ -1,0 +1,90 @@
+
+{% extends "myblog/base.html" %}
+{% load data_extras %}
+{% load static %}
+
+{% block title %}
+    <title>{{ object.title_tag }}</title>
+{% endblock title %}
+
+{% block content %}
+
+    <div class="post_container">
+    <h1>{{ object.title }}</h1>
+
+    <div>
+        <p>{{ object.post_description }}</p>
+        <p>{{ object.author }} - {{ object.created_date_post }}</p>
+
+        {{ object.text_post|safe }}
+    </div>
+    <div>
+        <strong><span id="like_count">{{ object.total_likes }}</span> likes</strong>
+
+        {% if user.is_authenticated %}
+            <form method="post" id="formLike">
+                {% csrf_token %}
+                <span style="color: deeppink">
+                    <i id="mylikeid"
+                       {% if user|user_in_queryset:object.likes.all %}
+                            class="fas fa-heart"
+                       {% else %}
+                            class="far fa-heart"
+                       {% endif %}
+                    ></i>
+                </span>
+            </form>
+        {% endif %}
+    </div>
+    {% if user.is_authenticated %}
+        <form method="post" id="formComment">
+            <div><label for="txtAreaComment">Laissez un commentaire</label></div>
+            <div><textarea name="commentaire" id="txtAreaComment" cols="50%" rows="10%" onkeyup="checkNbChar(this.value)"></textarea></div>
+            <button id="validationCommentId" disabled>Valider</button>
+            <div><label>Nombre de caractères <span id="nbChar">0</span> /1000 </label></div>
+        </form>
+    {% endif %}
+
+
+    <div id="box_commentaire">
+    {% if object.comments.all %}
+
+    {% for comment in object.comments.all reversed %}
+                <div>
+        <p>{{ comment.message }}</p>
+    </div>
+    <div class="message_box">
+        <h5>{{ comment.author }} - {{ comment.date_created }}</h5>
+        </div>
+
+    {% endfor %}
+
+
+    {% endif %}
+    </div>
+
+    {% if user.is_authenticated and user.id == object.author.id %}
+        {%  if user.is_superuser or user.is_staff %}
+        <div>
+            <p>
+                <a href="{% url 'update_post' object.slug %}"> Update post </a>
+            </p>
+        <p><a href="{% url 'delete_post' object.slug %}"> Delete post </a></p>
+        </div>
+        {% endif %}
+    {% endif %}
+    <script>
+
+    function checkNbChar(texte) {
+        document.getElementById("validationCommentId").disabled = texte.length < 10;
+        document.getElementById("nbChar").innerHTML = texte.length;
+    }
+
+    document.querySelector('#formLike').addEventListener('click', like_post);
+    document.querySelector('#validationCommentId').addEventListener('click', comment_post);
+    const com_author_id = "{{  user.id }}";
+    const com_author_name = "{{  user.username }}";
+
+    </script>
+</div>
+{% endblock content %}

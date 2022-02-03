@@ -1,0 +1,26 @@
+{% extends "myblog/base.html" %}
+
+{% load static %}
+
+{% block title %}
+    <title>Update post</title>
+{% endblock title %}
+
+{% block content %}
+{% if user.is_authenticated and user.id == object.author.id %}
+    {%  if user.is_superuser or user.is_staff %}
+
+            <div>Update Post</div>
+
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button>Update</button>
+                        </form>
+    {% endif %}
+
+{% else %}
+    <div>You are not allowed here</div>
+{% endif %}
+
+{% endblock content %}

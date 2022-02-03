@@ -1,0 +1,30 @@
+{% extends "myblog/base.html" %}
+
+{% load static %}
+
+{% block title %}
+    <title>Register</title>
+{% endblock title %}
+
+{% block content %}
+
+    <div class="container">
+        <div id="forms" class="card mb-4">
+            <div class="card-header">Register</div>
+            <div class="card-body">
+                <div class="content-column-content">
+                    <div class="form-group">
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button class="btn btn-secondary">Register</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock content %}
